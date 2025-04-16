@@ -30,60 +30,44 @@ function App() {
     return localStorage.getItem("isLoggedIn") === "true";
   });
 
-  const [darkMode, setDarkMode] = useState(() => {
-    return localStorage.getItem("darkMode") === "true";
-  });
-
   const location = useLocation();
 
   useEffect(() => {
     localStorage.setItem("isLoggedIn", isLoggedIn);
-    localStorage.setItem("darkMode", darkMode);
-    
-    // Apply dark mode class to body
-    if (darkMode) {
-      document.documentElement.classList.add("dark");
-    } else {
-      document.documentElement.classList.remove("dark");
-    }
-  }, [isLoggedIn, darkMode]);
-
-  const toggleDarkMode = () => {
-    setDarkMode(!darkMode);
-  };
+  }, [isLoggedIn]);
 
   // Check if current route is the signin page
   const isSigninPage = location.pathname === "/signin";
 
   return (
-    <div className={`min-h-screen flex flex-col ${darkMode ? "dark bg-gray-900 text-white" : "bg-white text-black"}`}>
-      {!isSigninPage && <NavBar darkMode={darkMode} toggleDarkMode={toggleDarkMode} isLoggedIn={isLoggedIn} />}
+    <div className="min-h-screen flex flex-col bg-white text-black">
+      {!isSigninPage && <NavBar isLoggedIn={isLoggedIn} />}
       
       <main className="flex-grow">
         <Routes>
-          <Route path="/" element={<Home darkMode={darkMode} />} />
-          <Route path="/home" element={<Home darkMode={darkMode} />} />
+          <Route path="/" element={<Home />} />
+          <Route path="/home" element={<Home />} />
           <Route 
             path="/signin" 
-            element={<Signin setIsLoggedIn={setIsLoggedIn} darkMode={darkMode} />} 
+            element={<Signin setIsLoggedIn={setIsLoggedIn} />} 
           />
-          <Route path="/Awareness-Page" element={<AwarenessPage darkMode={darkMode} />} />
-          <Route path="/Report" element={<IncidentPage darkMode={darkMode} />} />
-          <Route path="/VolunteerForm" element={<VolunteerFormPage darkMode={darkMode} />} />
+          <Route path="/Awareness-Page" element={<AwarenessPage />} />
+          <Route path="/Report" element={<IncidentPage />} />
+          <Route path="/VolunteerForm" element={<VolunteerFormPage />} />
 
           {/* Disaster awareness pages */}
-          <Route path="/cyclone" element={<Cyclone darkMode={darkMode} />} />
-          <Route path="/earthquake" element={<Earthquake darkMode={darkMode} />} />
-          <Route path="/floods" element={<Floods darkMode={darkMode} />} />
-          <Route path="/landslide" element={<Landslide darkMode={darkMode} />} />
-          <Route path="/pandemic" element={<Pandemic darkMode={darkMode} />} />
-          <Route path="/volcano" element={<Volcano darkMode={darkMode} />} />
-          <Route path="/wildfire" element={<Wildfire darkMode={darkMode} />} />
-          <Route path="/blizzards" element={<Blizzards darkMode={darkMode} />} />
+          <Route path="/cyclone" element={<Cyclone />} />
+          <Route path="/earthquake" element={<Earthquake />} />
+          <Route path="/floods" element={<Floods />} />
+          <Route path="/landslide" element={<Landslide />} />
+          <Route path="/pandemic" element={<Pandemic />} />
+          <Route path="/volcano" element={<Volcano />} />
+          <Route path="/wildfire" element={<Wildfire />} />
+          <Route path="/blizzards" element={<Blizzards />} />
         </Routes>
       </main>
 
-      {!isSigninPage && <Footer darkMode={darkMode} />}
+      {!isSigninPage && <Footer />}
 
       <ToastContainer
         position="top-right"
@@ -95,7 +79,7 @@ function App() {
         pauseOnFocusLoss
         draggable
         pauseOnHover
-        theme={darkMode ? "dark" : "light"}
+        theme="light"
       />
     </div>
   );
