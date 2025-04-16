@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
-import { AlertCircle, Check, ChevronLeft, Send } from "lucide-react";
+import { AlertCircle, Check, ChevronLeft, Send, Image as ImageIcon } from "lucide-react";
 
 const Report = () => {
   const navigate = useNavigate();
@@ -12,6 +12,9 @@ const Report = () => {
     latitude: null,
     longitude: null,
   });
+  const [imageFile, setImageFile] = useState(null);
+  const [imagePreview, setImagePreview] = useState(null);
+
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState("");
   const [successMessage, setSuccessMessage] = useState("");
@@ -39,6 +42,19 @@ const Report = () => {
     }));
   }, []);
 
+  const handleImageChange = (e) => {
+    const file = e.target.files[0];
+    setImageFile(file);
+
+    if (file) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setImagePreview(reader.result);
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
   const validateForm = () => {
     const errors = {};
     if (formData.title.length < 5) {
@@ -65,14 +81,21 @@ const Report = () => {
     setSuccessMessage("");
 
     try {
-      const response = await fetch(
-        "http://localhost:8000/api/reports/reports",
-        {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ ...formData, location: userLocation }),
-        }
-      );
+      const form = new FormData();
+      form.append("title", formData.title);
+      form.append("description", formData.description);
+      if (userLocation.latitude && userLocation.longitude) {
+        form.append("latitude", userLocation.latitude);
+        form.append("longitude", userLocation.longitude);
+      }
+      if (imageFile) {
+        form.append("image", imageFile);
+      }
+
+      const response = await fetch("http://localhost:8000/api/reports/reports", {
+        method: "POST",
+        body: form,
+      });
 
       const data = await response.json();
 
@@ -83,6 +106,8 @@ const Report = () => {
       console.log("Report submitted:", data);
       setFormData({ title: "", description: "" });
       setTouched({});
+      setImageFile(null);
+      setImagePreview(null);
       setSuccessMessage("Report submitted successfully!");
 
       setTimeout(() => setSuccessMessage(""), 3000);
@@ -133,6 +158,7 @@ const Report = () => {
             )}
 
             <form onSubmit={handleSubmit} className="space-y-6">
+              {/* Title Input */}
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-2">
                   Incident Title
@@ -160,6 +186,7 @@ const Report = () => {
                 )}
               </div>
 
+              {/* Description */}
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-2">
                   Description
@@ -169,7 +196,7 @@ const Report = () => {
                   value={formData.description}
                   onChange={handleChange}
                   onBlur={() => handleBlur("description")}
-                  placeholder="Provide detailed information about the incident. What happened? When did it occur? Are there any immediate risks?"
+                  placeholder="Provide detailed information about the incident."
                   disabled={isSubmitting}
                   rows={5}
                   className={`w-full px-4 py-3 border rounded-lg outline-none transition-all duration-200
@@ -188,18 +215,40 @@ const Report = () => {
                 )}
               </div>
 
+              {/* Image Upload */}
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2 flex items-center gap-2">
+                  <ImageIcon className="w-4 h-4" />
+                  Upload Image (Optional)
+                </label>
+                <input
+                  type="file"
+                  accept="image/*"
+                  onChange={handleImageChange}
+                  disabled={isSubmitting}
+                  className="w-full"
+                />
+                {imagePreview && (
+                  <img
+                    src={imagePreview}
+                    alt="Preview"
+                    className="mt-4 h-40 rounded-lg object-cover border"
+                  />
+                )}
+              </div>
+
+              {/* Location Status */}
               {userLocation.latitude && userLocation.longitude ? (
                 <div className="px-4 py-3 bg-blue-50 rounded-lg border border-blue-100 text-sm text-blue-700">
-                  Your location has been automatically detected and will be
-                  included with this report.
+                  Your location has been automatically detected and will be included with this report.
                 </div>
               ) : (
                 <div className="px-4 py-3 bg-yellow-50 rounded-lg border border-yellow-100 text-sm text-yellow-700">
-                  Your location could not be detected. The report will be
-                  submitted without location data.
+                  Your location could not be detected. The report will be submitted without location data.
                 </div>
               )}
 
+              {/* Submit Button */}
               <button
                 type="submit"
                 disabled={isSubmitting}
