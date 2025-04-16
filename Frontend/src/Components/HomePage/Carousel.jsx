@@ -2,211 +2,245 @@ import React, { useState, useEffect, useRef, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 import { ArrowBackIos, ArrowForwardIos } from "@mui/icons-material";
 
-const Carousel = ({ images = [], interval = 5000, customStyles = {} }) => {
+const Carousel = ({ slides = [], interval = 5000 }) => {
   const [activeIndex, setActiveIndex] = useState(0);
   const intervalRef = useRef(null);
   const navigate = useNavigate();
 
   const handleNext = useCallback(() => {
-    setActiveIndex((prev) => (prev + 1) % images.length);
-  }, [images.length]);
+    setActiveIndex((prev) => (prev + 1) % slides.length);
+  }, [slides.length]);
 
   const handlePrev = useCallback(() => {
-    setActiveIndex((prev) => (prev === 0 ? images.length - 1 : prev - 1));
-  }, [images.length]);
+    setActiveIndex((prev) => (prev - 1 + slides.length) % slides.length);
+  }, [slides.length]);
 
   const startAutoSlide = useCallback(() => {
-    stopAutoSlide();
     intervalRef.current = setInterval(handleNext, interval);
   }, [handleNext, interval]);
 
   const stopAutoSlide = useCallback(() => {
-    if (intervalRef.current) {
-      clearInterval(intervalRef.current);
-      intervalRef.current = null;
-    }
+    if (intervalRef.current) clearInterval(intervalRef.current);
   }, []);
 
   useEffect(() => {
-    if (images.length > 1) startAutoSlide();
+    if (slides.length > 1) startAutoSlide();
     return stopAutoSlide;
-  }, [startAutoSlide, stopAutoSlide, images.length]);
+  }, [startAutoSlide, stopAutoSlide, slides.length]);
 
-  if (!images.length) return <p className="text-center text-gray-500">No images to display</p>;
+  if (!slides.length) return <p className="text-center text-gray-500">No slides available</p>;
 
   return (
     <div
-      className="carousel-container"
       style={{
         position: "relative",
         width: "100%",
-        height: "70vh",
+        height: "80vh",
+        maxHeight: "720px",
         overflow: "hidden",
-        ...customStyles,
+        background: "#111",
       }}
-      onMouseEnter={stopAutoSlide}
-      onMouseLeave={startAutoSlide}
+      onTouchStart={stopAutoSlide}
+      onTouchEnd={startAutoSlide}
     >
-      {/* Slides */}
+      <style>
+        {`
+          .carousel-slide {
+            flex: 0 0 100%;
+            height: 100%;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+          }
+          .carousel-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+          }
+          .carousel-overlay {
+            position: absolute;
+            bottom: 20%;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(0, 0, 0, 0.7);
+            color: white;
+            padding: 16px 24px;
+            border-radius: 8px;
+            text-align: center;
+            max-width: 90%;
+          }
+          .carousel-heading {
+            font-size: clamp(1.5rem, 3vw, 2rem);
+            font-weight: 700;
+            margin-bottom: 8px;
+          }
+          .carousel-paragraph {
+            font-size: clamp(0.875rem, 2vw, 1rem);
+            margin-bottom: 16px;
+          }
+          .carousel-button {
+            padding: 8px 16px;
+            background: #2563eb;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: background 0.3s;
+          }
+          .carousel-button:hover {
+            background: #1e40af;
+          }
+          .carousel-arrow {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(0, 0, 0, 0.5);
+            border: none;
+            border-radius: 50%;
+            padding: 10px;
+            color: white;
+            cursor: pointer;
+            transition: background 0.3s;
+          }
+          .carousel-arrow:hover {
+            background: rgba(0, 0, 0, 0.8);
+          }
+          .carousel-dots {
+            position: absolute;
+            bottom: 16px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 8px;
+          }
+          .carousel-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.5);
+            border: none;
+            cursor: pointer;
+            transition: background 0.3s;
+          }
+          .carousel-dot.active {
+            background: #2563eb;
+          }
+          @media (max-width: 768px) {
+            .carousel-overlay {
+              padding: 12px 16px;
+              bottom: 15%;
+            }
+            .carousel-heading {
+              font-size: clamp(1.25rem, 2.5vw, 1.5rem);
+            }
+            .carousel-paragraph {
+              font-size: clamp(0.75rem, 1.5vw, 0.875rem);
+            }
+            .carousel-button {
+              padding: 6px 12px;
+              font-size: 0.875rem;
+            }
+            .carousel-arrow {
+              padding: 8px;
+            }
+          }
+          @media (max-width: 480px) {
+            .carousel-overlay {
+              padding: 8px 12px;
+              bottom: 10%;
+            }
+            .carousel-heading {
+              font-size: clamp(1rem, 2vw, 1.25rem);
+            }
+            .carousel-paragraph {
+              font-size: clamp(0.625rem, 1.2vw, 0.75rem);
+            }
+            .carousel-arrow {
+              display: none;
+            }
+          }
+        `}
+      </style>
+
       <div
-        className="flex transition-transform duration-1000 ease-in-out"
         style={{
           display: "flex",
+          width: "100%",
+          height: "100%",
           transform: `translateX(-${activeIndex * 100}%)`,
-          width: `${images.length * 100}%`,
+          transition: "transform 0.8s ease-in-out",
         }}
       >
-        {images.map((image, index) => (
-          <div
-            key={index}
-            style={{
-              flex: "0 0 100%",
-              position: "relative",
-              height: "100%",
-            }}
-          >
-            <img
-              src={image}
-              alt={`Slide ${index + 1}`}
-              style={{
-                width: "100%",
-                height: "100%",
-                objectFit: "cover",
-                filter: "brightness(70%)",
-              }}
-              loading="lazy"
-            />
-            {/* Overlay Text */}
-            <div
-              style={{
-                position: "absolute",
-                top: "50%",
-                left: "50%",
-                transform: "translate(-50%, -50%)",
-                color: "#fff",
-                textAlign: "center",
-                padding: "20px",
-                maxWidth: "90%",
-                backgroundColor: "rgba(0, 0, 0, 0.4)",
-                borderRadius: "12px",
-              }}
-            >
-              <h2 style={{ fontSize: "2rem", fontWeight: "bold", marginBottom: "10px" }}>
-                Be Ready Before It Strikes
-              </h2>
-              <p style={{ fontSize: "1rem", marginBottom: "20px" }}>
-                Stay informed and equipped for any disaster. We provide real-time updates,
-                safety guides, and relief resources to help communities stay safe.
-              </p>
+        {slides.map((slide, index) => (
+          <div key={index} className="carousel-slide">
+<img
+  src={slide.image}
+  alt={slide.heading}
+  style={{
+    width: "100%",
+    height: "100%",
+    objectFit: "cover",
+    objectPosition: "center",
+    display: "block",
+    position: "absolute",
+    top: 0,
+    left: 0,
+    filter: "brightness(70%)",
+  }}
+  onError={(e) => {
+    e.target.onerror = null;
+    e.target.src = "data:image/svg+xml;charset=UTF-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='800' height='600' viewBox='0 0 800 600'%3E%3Crect fill='%23ddd' width='800' height='600'/%3E%3Ctext fill='%23666' font-family='sans-serif' font-size='40' dy='.35em' text-anchor='middle' x='400' y='300'%3EImage not available%3C/text%3E%3C/svg%3E";
+  }}
+/>
+            <div className="carousel-overlay">
+              <h2 className="carousel-heading">{slide.heading}</h2>
+              <p className="carousel-paragraph">{slide.paragraph}</p>
               <button
-                style={{
-                  padding: "10px 20px",
-                  fontSize: "1rem",
-                  backgroundColor: "#007BFF",
-                  color: "#fff",
-                  border: "none",
-                  borderRadius: "6px",
-                  cursor: "pointer",
-                  transition: "background-color 0.3s ease",
-                }}
-                onClick={() => navigate("/Awareness-Page")}
+                className="carousel-button"
+                onClick={() => navigate(slide.link)}
               >
-                Help & Awareness
+                Learn More
               </button>
             </div>
           </div>
         ))}
       </div>
 
-      {/* Arrows */}
-      {images.length > 1 && (
+      {slides.length > 1 && (
         <>
           <button
+            className="carousel-arrow"
+            style={{ left: "16px" }}
             onClick={handlePrev}
             aria-label="Previous slide"
-            style={arrowButtonStyle("left")}
           >
-            <ArrowBackIos fontSize="small" />
+            <ArrowBackIos />
           </button>
           <button
+            className="carousel-arrow"
+            style={{ right: "16px" }}
             onClick={handleNext}
             aria-label="Next slide"
-            style={arrowButtonStyle("right")}
           >
-            <ArrowForwardIos fontSize="small" />
+            <ArrowForwardIos />
           </button>
+          <div className="carousel-dots">
+            {slides.map((_, index) => (
+              <button
+                key={index}
+                className={`carousel-dot ${activeIndex === index ? "active" : ""}`}
+                onClick={() => setActiveIndex(index)}
+                aria-label={`Go to slide ${index + 1}`}
+              />
+            ))}
+          </div>
         </>
       )}
-
-      {/* Dots */}
-      <div style={dotsContainerStyle}>
-        {images.map((_, index) => (
-          <button
-            key={index}
-            onClick={() => setActiveIndex(index)}
-            aria-label={`Go to slide ${index + 1}`}
-            style={{
-              ...dotStyle,
-              backgroundColor: activeIndex === index ? "#007BFF" : "gray",
-            }}
-          />
-        ))}
-      </div>
-
-      {/* Responsive Styling */}
-      <style>
-        {`
-          @media (max-width: 768px) {
-            .carousel-container {
-              height: 40vh !important;
-            }
-            .carousel-container h2 {
-              font-size: 1.2rem !important;
-            }
-            .carousel-container p {
-              font-size: 0.9rem !important;
-            }
-            .carousel-container button {
-              font-size: 0.85rem !important;
-              padding: 8px 16px !important;
-            }
-          }
-        `}
-      </style>
     </div>
   );
-};
-
-// 🧠 Extracted reusable styles for arrows and dots
-const arrowButtonStyle = (side) => ({
-  position: "absolute",
-  top: "50%",
-  [side]: "2%",
-  transform: "translateY(-50%)",
-  backgroundColor: "rgba(96, 96, 96, 0.5)",
-  border: "none",
-  padding: "10px",
-  borderRadius: "50%",
-  color: "white",
-  cursor: "pointer",
-  zIndex: 10,
-});
-
-const dotsContainerStyle = {
-  position: "absolute",
-  bottom: "20px",
-  left: "50%",
-  transform: "translateX(-50%)",
-  display: "flex",
-  gap: "8px",
-};
-
-const dotStyle = {
-  width: "10px",
-  height: "10px",
-  borderRadius: "50%",
-  border: "none",
-  cursor: "pointer",
 };
 
 export default Carousel;
