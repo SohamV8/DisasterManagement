@@ -300,7 +300,7 @@ const LocationSelector = ({ onChange, onSearch }) => {
     "Coastal Areas",
     "Mountain Regions",
     "Plains",
-    "Urban Areas",
+    "Inhabited Areas",
     "Forest Regions",
   ];
 
