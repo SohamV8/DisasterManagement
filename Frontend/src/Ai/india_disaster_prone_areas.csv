@@ -1,0 +1,54 @@
+Location,Disaster,Latitude,Longitude
+Kochi,Flood,9.9312,76.2673
+Mumbai,Flood,19.076,72.8777
+Chennai,Flood,13.0827,80.2707
+Uttarkashi,Earthquake,30.7294,78.4469
+Sikkim,Earthquake,27.533,88.6126
+Andaman Islands,Tsunami,11.7401,92.6586
+Cyclone-Prone Area,Cyclone,20.9517,86.0912
+Odisha,Cyclone,19.7983,85.8135
+Bihar,Flood,25.0968,85.3131
+Kolkata,Flood,22.5726,88.3639
+Shillong,Landslide,25.5788,91.8833
+Cherrapunji,Landslide,25.2965,91.5822
+Kashmir Valley,Earthquake,34.0836,74.7973
+Gujarat,Earthquake,22.2587,71.1924
+Kochi,Flood,9.9312,76.2673
+Assam,Flood,26.2006,92.937
+Karnataka,Flood,15.3173,75.7139
+Nagapattinam,Cyclone,10.7611,79.8395
+Rajasthan,Drought,27.0238,74.2179
+Himachal Pradesh,Landslide,32.085,77.5713
+Kochi,Flood,9.9312,76.2673
+Srinagar,Flood,34.0836,74.7973
+Agra,Flood,27.1767,78.0081
+Hyderabad,Flood,17.385,78.4867
+Patna,Flood,25.5941,85.1376
+Dehradun,Flood,30.3165,78.0322
+Chandigarh,Flood,30.7333,76.7794
+Jaipur,Drought,26.9124,75.7873
+Mysore,Flood,12.2958,76.6394
+Tirunelveli,Flood,8.73,77.7361
+Bengaluru,Flood,12.9716,77.5946
+Indore,Flood,22.7196,75.8577
+Ahmedabad,Flood,23.0225,72.5714
+Pune,Flood,18.5204,73.8567
+Nagpur,Flood,21.1458,79.0882
+Bhubaneswar,Cyclone,20.2961,85.8189
+Mangalore,Flood,12.9141,74.856
+Lucknow,Flood,26.8467,80.9462
+Surat,Flood,21.1702,72.8311
+Thiruvananthapuram,Flood,8.5241,76.9366
+Ranchi,Flood,23.3441,85.3096
+Jammu,Flood,32.7266,74.857
+Vishakhapatnam,Cyclone,17.6869,83.2185
+Raipur,Flood,21.2514,81.6296
+Guwahati,Flood,26.1445,91.7362
+Ranchi,Flood,23.3441,85.3096
+Jamshedpur,Flood,22.8046,86.2026
+Dhanbad,Flood,23.7957,86.4351
+Bokaro,Flood,23.677,86.146
+Agartala,Flood,23.8315,91.2868
+Imphal,Flood,24.8174,93.9368
+Shillong,Landslide,25.5788,91.8833
+Itanagar,Flood,27.0841,93.604

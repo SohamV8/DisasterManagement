@@ -1,0 +1,101 @@
+Shelter_ID,Shelter_Name,State,City,Address,Pincode,Contact_Number,Capacity,Current_Occupancy,Type,Latitude,Longitude
+SH001,Sahara Shelter Home,Jharkhand,Ranchi,5 Lane,243372,9961236518,104,101,Men,30.9739,72.2161
+SH002,Safe Haven Shelter Home,Karnataka,Bangalore,16 Lane,630704,9434761396,137,102,Children,27.2677,77.5673
+SH003,Saathi Shelter Home,Gujarat,Ahmedabad,73 Colony,469862,9561073386,127,75,Children,15.993,80.8103
+SH004,Navjeevan Shelter Home,West Bengal,Kolkata,47 Nagar,816174,9207751050,110,49,Women,18.0321,69.0709
+SH005,Navjeevan Shelter Home,Bihar,Patna,2 Cross St,751374,9118692102,140,87,Elderly,14.3794,85.8604
+SH006,Prerna Shelter Home,Tamil Nadu,Chennai,46 Nagar,319187,9538306059,90,43,Men,27.8775,79.3659
+SH007,Savera Shelter Home,Jharkhand,Ranchi,68 Lane,300822,9913300815,72,65,Elderly,11.6546,76.6577
+SH008,Asha Shelter Home,Rajasthan,Jaipur,20 Lane,483036,9751383722,121,110,Children,23.5993,79.629
+SH009,Umang Shelter Home,Haryana,Gurgaon,46 Cross St,537164,9263945182,104,62,Elderly,13.1748,71.067
+SH010,Safe Haven Shelter Home,Haryana,Gurgaon,44 Lane,829048,9730300250,79,73,Men,14.6138,85.2937
+SH011,Asha Shelter Home,Chhattisgarh,Raipur,8 Cross St,706164,9372549375,133,67,Men,32.3864,74.9798
+SH012,Safe Haven Shelter Home,Himachal Pradesh,Shimla,95 Colony,989604,9765811248,116,55,Mixed,25.6083,68.4155
+SH013,Umang Shelter Home,Jharkhand,Ranchi,42 Cross St,165449,9129624521,56,45,Mixed,15.8313,69.491
+SH014,Savera Shelter Home,Himachal Pradesh,Shimla,36 Main Rd,228412,9514355082,120,110,Elderly,15.528,69.6943
+SH015,Saathi Shelter Home,Jharkhand,Ranchi,50 Main Rd,827933,9162841660,60,58,Mixed,25.4,85.2278
+SH016,Navjeevan Shelter Home,Rajasthan,Jaipur,61 Main Rd,593350,9715618896,79,73,Elderly,24.2746,69.8093
+SH017,Prerna Shelter Home,Chhattisgarh,Raipur,25 Main Rd,524457,9287583816,121,65,Children,15.4696,84.9007
+SH018,Prerna Shelter Home,Punjab,Ludhiana,20 Nagar,919519,9630942579,67,66,Mixed,25.985,76.8477
+SH019,Nayi Disha Shelter Home,Assam,Guwahati,58 Colony,343026,9926650259,98,39,Elderly,25.9593,78.2498
+SH020,Sneha Shelter Home,Bihar,Patna,20 Colony,892144,9475851678,87,38,Elderly,17.2526,68.5604
+SH021,Sahara Shelter Home,Punjab,Ludhiana,91 Cross St,805167,9192393196,144,73,Men,18.7658,72.4634
+SH022,Safe Haven Shelter Home,Gujarat,Ahmedabad,77 Colony,953571,9348095708,87,57,Elderly,20.8943,74.2135
+SH023,Nirman Shelter Home,Madhya Pradesh,Bhopal,10 Main Rd,668388,9189536624,79,67,Children,29.5032,76.5847
+SH024,Navjeevan Shelter Home,Telangana,Hyderabad,59 Cross St,991989,9339452793,147,61,Elderly,28.9686,80.6183
+SH025,Sneha Shelter Home,Assam,Guwahati,96 Colony,618748,9832392590,102,46,Men,17.9935,86.333
+SH026,Navjeevan Shelter Home,Odisha,Bhubaneswar,90 Cross St,425363,9457444756,97,83,Children,14.5983,82.5764
+SH027,Sneha Shelter Home,Punjab,Ludhiana,73 Lane,218309,9218566585,59,35,Children,27.3306,81.3326
+SH028,Navjeevan Shelter Home,Telangana,Hyderabad,12 Cross St,814755,9729088947,102,50,Elderly,32.0713,87.5778
+SH029,Sahara Shelter Home,Telangana,Hyderabad,59 Main Rd,578539,9321663308,111,84,Children,22.1446,70.5517
+SH030,Nayi Disha Shelter Home,Andhra Pradesh,Vijayawada,20 Main Rd,807022,9489191841,136,83,Men,33.3766,80.9075
+SH031,Saathi Shelter Home,Andhra Pradesh,Vijayawada,55 Cross St,842853,9288860732,135,115,Children,27.198,76.4985
+SH032,Jeevan Shelter Home,Odisha,Bhubaneswar,11 Main Rd,830066,9973214924,109,71,Men,32.3941,71.6124
+SH033,Nirman Shelter Home,Haryana,Gurgaon,24 Nagar,461394,9927711838,135,32,Children,9.3679,68.8033
+SH034,Nayi Disha Shelter Home,Haryana,Gurgaon,1 Nagar,521023,9998567603,63,52,Women,17.5412,78.9003
+SH035,Jeevan Shelter Home,Kerala,Kochi,21 Lane,439016,9812393819,122,97,Women,27.5792,69.2447
+SH036,Savera Shelter Home,Madhya Pradesh,Bhopal,91 Main Rd,241247,9795084045,97,59,Women,10.8463,87.2246
+SH037,Savera Shelter Home,Madhya Pradesh,Bhopal,76 Cross St,159224,9501249162,54,33,Men,29.8865,76.3062
+SH038,Jeevan Shelter Home,Assam,Guwahati,32 Lane,973540,9937048559,116,84,Children,10.3225,69.2518
+SH039,Asha Shelter Home,Jharkhand,Ranchi,62 Main Rd,637587,9548361715,100,43,Mixed,29.6076,70.7058
+SH040,Hope Shelter Home,Uttar Pradesh,Lucknow,71 Lane,111435,9922170984,102,40,Men,17.8762,87.0132
+SH041,Asha Shelter Home,Jharkhand,Ranchi,14 Cross St,555899,9633694143,102,30,Women,30.7075,80.7669
+SH042,Sneha Shelter Home,Tamil Nadu,Chennai,90 Colony,434238,9515650532,60,58,Men,27.1734,77.692
+SH043,Umang Shelter Home,Punjab,Ludhiana,90 Lane,320847,9813860172,86,55,Mixed,30.6545,69.2275
+SH044,Sneha Shelter Home,Himachal Pradesh,Shimla,49 Nagar,896743,9684314249,61,47,Elderly,19.7075,79.7296
+SH045,Saathi Shelter Home,Tamil Nadu,Chennai,96 Cross St,144534,9579131283,96,43,Mixed,23.816,72.2005
+SH046,Jeevan Shelter Home,Punjab,Ludhiana,70 Lane,168834,9400233452,150,80,Children,28.5926,75.413
+SH047,Jeevan Shelter Home,Gujarat,Ahmedabad,50 Lane,617609,9382234422,66,34,Men,8.1474,75.3668
+SH048,Savera Shelter Home,Andhra Pradesh,Vijayawada,24 Lane,613155,9311407554,73,50,Mixed,24.8454,78.5081
+SH049,Hope Shelter Home,Telangana,Hyderabad,26 Lane,533562,9739803251,73,42,Children,8.3091,79.026
+SH050,Saathi Shelter Home,Kerala,Kochi,74 Cross St,692888,9362499810,50,48,Children,31.1124,83.5108
+SH051,Asha Shelter Home,Madhya Pradesh,Bhopal,16 Colony,230469,9176717965,120,115,Mixed,31.8211,87.502
+SH052,Nirman Shelter Home,Gujarat,Ahmedabad,20 Colony,177058,9603487583,148,35,Children,32.8031,78.7039
+SH053,Saathi Shelter Home,Gujarat,Ahmedabad,63 Colony,398635,9723589380,127,31,Children,31.9942,70.8999
+SH054,Saathi Shelter Home,Assam,Guwahati,44 Cross St,773332,9263602042,123,54,Elderly,19.1922,71.0313
+SH055,Jeevan Shelter Home,Rajasthan,Jaipur,77 Main Rd,789396,9167486217,76,72,Mixed,14.6318,79.9004
+SH056,Nayi Disha Shelter Home,Maharashtra,Mumbai,23 Nagar,669498,9163993512,52,42,Mixed,14.4145,70.9948
+SH057,Sneha Shelter Home,Himachal Pradesh,Shimla,52 Nagar,872969,9899148538,50,46,Men,10.3156,78.2729
+SH058,Saathi Shelter Home,Haryana,Gurgaon,67 Colony,709056,9992559230,148,124,Elderly,25.9988,85.4724
+SH059,Safe Haven Shelter Home,Delhi,New Delhi,49 Main Rd,774900,9180541880,86,66,Women,23.1966,85.6626
+SH060,Umang Shelter Home,Uttar Pradesh,Lucknow,17 Cross St,412626,9872364300,53,39,Children,14.6355,80.8656
+SH061,Nayi Disha Shelter Home,Andhra Pradesh,Vijayawada,30 Main Rd,248230,9815804708,71,57,Elderly,14.5047,70.326
+SH062,Navjeevan Shelter Home,Delhi,New Delhi,70 Main Rd,588887,9971007914,111,82,Elderly,24.4288,72.9485
+SH063,Umang Shelter Home,Delhi,New Delhi,74 Cross St,333792,9323770371,102,50,Elderly,22.8099,71.4115
+SH064,Safe Haven Shelter Home,Kerala,Kochi,82 Cross St,652332,9522808373,116,72,Elderly,14.3154,85.9954
+SH065,Asha Shelter Home,Tamil Nadu,Chennai,62 Colony,230065,9478635758,142,105,Women,15.4706,73.6154
+SH066,Umang Shelter Home,Punjab,Ludhiana,32 Cross St,512363,9181138723,103,50,Mixed,11.5497,74.4154
+SH067,Saathi Shelter Home,Himachal Pradesh,Shimla,93 Main Rd,298076,9655216395,69,57,Mixed,25.6247,84.6974
+SH068,Navjeevan Shelter Home,Chhattisgarh,Raipur,95 Cross St,759296,9704884752,114,39,Men,14.8257,68.6142
+SH069,Savera Shelter Home,Himachal Pradesh,Shimla,11 Lane,813799,9568420319,81,58,Men,29.2696,79.0834
+SH070,Savera Shelter Home,Gujarat,Ahmedabad,35 Lane,593011,9305077320,101,100,Elderly,17.7474,87.5708
+SH071,Nirman Shelter Home,Odisha,Bhubaneswar,83 Cross St,619364,9659118123,116,106,Children,14.7438,80.3403
+SH072,Asha Shelter Home,Uttar Pradesh,Lucknow,41 Colony,524136,9914154545,85,77,Men,18.9338,71.6222
+SH073,Saathi Shelter Home,Assam,Guwahati,58 Lane,611904,9920130090,50,45,Elderly,20.271,73.0664
+SH074,Sahara Shelter Home,Madhya Pradesh,Bhopal,95 Cross St,880948,9512708641,103,31,Men,14.6465,87.4725
+SH075,Saathi Shelter Home,Assam,Guwahati,45 Colony,884416,9891962740,97,96,Women,9.4799,78.9559
+SH076,Prerna Shelter Home,Tamil Nadu,Chennai,53 Cross St,935599,9907274928,99,97,Mixed,16.9046,80.1869
+SH077,Savera Shelter Home,Delhi,New Delhi,67 Cross St,901701,9237669734,143,50,Women,25.4153,77.4921
+SH078,Prerna Shelter Home,Kerala,Kochi,71 Cross St,194495,9769955108,119,68,Children,32.4517,73.7093
+SH079,Jeevan Shelter Home,Telangana,Hyderabad,21 Nagar,844971,9933098260,109,91,Elderly,28.7028,68.7565
+SH080,Prerna Shelter Home,Assam,Guwahati,39 Nagar,473833,9617917879,116,75,Children,13.65,85.5679
+SH081,Prerna Shelter Home,Kerala,Kochi,54 Main Rd,548036,9673029597,68,65,Elderly,9.9537,73.9669
+SH082,Sneha Shelter Home,Telangana,Hyderabad,50 Main Rd,815333,9151315406,71,41,Women,24.7061,74.3436
+SH083,Navjeevan Shelter Home,Maharashtra,Mumbai,10 Colony,442956,9374167056,123,111,Mixed,32.1368,84.5202
+SH084,Hope Shelter Home,Odisha,Bhubaneswar,73 Lane,863127,9280725137,142,67,Men,16.9967,84.9117
+SH085,Navjeevan Shelter Home,Delhi,New Delhi,12 Cross St,247629,9270071239,131,64,Mixed,19.0974,69.0711
+SH086,Sneha Shelter Home,Karnataka,Bangalore,10 Main Rd,162480,9817291932,50,32,Mixed,8.1325,74.404
+SH087,Sneha Shelter Home,Kerala,Kochi,35 Cross St,878663,9368421688,76,66,Women,23.2534,87.2952
+SH088,Sahara Shelter Home,Assam,Guwahati,71 Main Rd,224317,9342681007,77,42,Children,15.3885,68.5384
+SH089,Nayi Disha Shelter Home,Kerala,Kochi,26 Cross St,509304,9787710494,103,73,Elderly,29.8719,77.0604
+SH090,Saathi Shelter Home,West Bengal,Kolkata,95 Nagar,804634,9686988517,60,55,Mixed,11.9286,71.7409
+SH091,Nirman Shelter Home,Haryana,Gurgaon,26 Main Rd,676917,9609138334,99,86,Men,21.1986,72.5646
+SH092,Sneha Shelter Home,Assam,Guwahati,99 Main Rd,812728,9670961930,70,35,Elderly,32.9796,82.8996
+SH093,Sahara Shelter Home,Jharkhand,Ranchi,54 Cross St,879862,9672569168,128,73,Elderly,9.5712,83.2529
+SH094,Sahara Shelter Home,Tamil Nadu,Chennai,61 Cross St,873859,9129231886,100,41,Elderly,11.368,78.5199
+SH095,Umang Shelter Home,Chhattisgarh,Raipur,57 Main Rd,190150,9387202226,118,35,Children,26.8758,70.3397
+SH096,Asha Shelter Home,Uttar Pradesh,Lucknow,80 Nagar,953061,9184941886,66,49,Men,20.723,74.9347
+SH097,Saathi Shelter Home,Tamil Nadu,Chennai,98 Cross St,754245,9576169166,72,47,Men,33.4102,82.7238
+SH098,Savera Shelter Home,Chhattisgarh,Raipur,77 Nagar,363927,9703972878,128,96,Elderly,20.8642,68.6615
+SH099,Navjeevan Shelter Home,Rajasthan,Jaipur,88 Colony,511658,9750358984,59,51,Women,14.8162,68.1282
+SH100,Navjeevan Shelter Home,Delhi,New Delhi,61 Nagar,618495,9125808767,107,42,Mixed,25.911,75.2622
