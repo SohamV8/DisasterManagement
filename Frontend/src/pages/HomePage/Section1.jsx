@@ -27,7 +27,7 @@ const Section1 = ({ darkMode }) => {
             text: `Earthquake: ${quake.properties.place} (M${quake.properties.mag})`,
             time: new Date(quake.properties.time).toLocaleTimeString(),
             type: "earthquake",
-            colorClass: index % 2 === 0 ? "bg-red-500" : "bg-yellow-500", // Alternating colors
+            colorClass: index % 2 === 0 ? "bg-blue-100" : "bg-white-500", // Alternating colors
           }));
 
           setNotifications(newNotifications);
@@ -137,7 +137,13 @@ const Section1 = ({ darkMode }) => {
           {emergencyServices.map((service, index) => (
             <Link
               key={index}
-              to={`/${service.title.toLowerCase().replace(/\s+/g, "-")}`}
+              to={
+                service.title === "Map Views"
+                  ? "http://localhost:8501/"
+                  : service.title === "Emergency Shelters"
+                  ? "http://localhost:8502/"
+                  : `/${service.title.toLowerCase().replace(/\s+/g, "-")}`
+              }
               className={`${
                 darkMode
                   ? "bg-gray-800 hover:bg-gray-700"

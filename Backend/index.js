@@ -8,6 +8,7 @@ require("dotenv").config();
 const authRoutes = require("./routes/authRoutes");
 const userRoutes = require("./routes/userRoutes");
 const reportRoutes = require("./routes/ReportRoutes");
+const SoSRoute = require("./routes/SoSRoute");  
 
 const app = express();
 
@@ -46,6 +47,7 @@ app.use("/api/auth", authRoutes);
 
 app.use("/api/users", userRoutes);
 app.use("/api/reports", reportRoutes);
+app.use("/api/sos", SoSRoute); // Ensure this route is correctly defined
 
 
 // Error handling middleware

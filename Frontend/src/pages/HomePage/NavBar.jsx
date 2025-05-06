@@ -56,15 +56,17 @@ const privateMenus = {
   services: {
     title: "Services",
     items: [
-      { label: "Find Shelter", icon: FaMapPin, path: "/shelters" },
       { label: "Report Incident", icon: FaFlag, path: "/Report" },
-      { label: "Volunteer", icon: FaShieldAlt, path: "/VolunteerForm" },
-      { label: "Medical Help", icon: FaHospital, path: "/hospitals" },
-      { label: "Fire Stations", icon: FaFire, path: "/fire-stations" },
       {
-        label: "RequirementForm",
+        label: "Register as Volunteer",
+        icon: FaShieldAlt,
+        path: "/VolunteerForm",
+      },
+      { label: "Register as Donor", icon: FaShieldAlt, path: "/DonorForm" },
+      {
+        label: "Send Request(SOS)",
         icon: FaHandsHelping,
-        path: "/ResourceRequirement",
+        path: "/SendRequest",
       },
     ],
   },
@@ -102,6 +104,97 @@ const getThreatLevelColor = (threatLevel) => {
   }
 };
 
+// Define menu items for Volunteer users (resources + services)
+const VolunteerMenus = {
+  resources: {
+    title: "Resources",
+    items: [
+      {
+        label: "Training Materials",
+        icon: AiOutlineBook,
+        path: "/Awareness-Page",
+      },
+    ],
+  },
+  services: {
+    title: "Services",
+    items: [
+      { label: "Report Incident", icon: FaFlag, path: "/Report" },
+      {
+        label: "Volunteer Request",
+        icon: FaHandsHelping,
+        path: "/VolunteerRequirement",
+      },
+      {
+        label: "Donor Request",
+        icon: FaHandsHelping,
+        path: "/DonorRequirement",
+      },
+    ],
+  },
+};
+
+// Define menu items for Donor users (resources + services)
+const DonorMenus = {
+  resources: {
+    title: "Resources",
+    items: [
+      {
+        label: "Training Materials",
+        icon: AiOutlineBook,
+        path: "/Awareness-Page",
+      },
+    ],
+  },
+  services: {
+    title: "Services",
+    items: [
+      { label: "Report Incident", icon: FaFlag, path: "/Report" },
+      {
+        label: "Donor Request",
+        icon: FaHandsHelping,
+        path: "/DonorRequirement",
+      },
+    ],
+  },
+};
+
+// Define menu items for Victim users (resources + services)
+const VictimMenus = {
+  resources: {
+    title: "Resources",
+    items: [
+      {
+        label: "Training Materials",
+        icon: AiOutlineBook,
+        path: "/Awareness-Page",
+      },
+    ],
+  },
+  services: {
+    title: "Services",
+    items: [
+      { label: "Report Incident", icon: FaFlag, path: "/Report" },
+      {
+        label: "Send Request(SOS)",
+        icon: FaHandsHelping,
+        path: "/SendRequest",
+      },
+      {
+        label: "NearBy Shelter",
+        icon: FaHandsHelping,
+        path: "http://localhost:8502/", // Changed to external URL
+        external: true, // Add this flag to indicate it's an external link
+      },
+      {
+        label: "QR",
+        icon: FaHandsHelping,
+        path: "/QRPage",
+      },
+    ],
+  },
+};
+
 export default function NavBar() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -112,9 +205,24 @@ export default function NavBar() {
   const [isNotificationOpen, setIsNotificationOpen] = useState(false);
   const [currentDate, setCurrentDate] = useState(new Date());
   const [searchQuery, setSearchQuery] = useState("");
+  const savedUser = JSON.parse(localStorage.getItem("user"));
 
   // Use the appropriate menu based on login status
-  const menus = user ? privateMenus : publicMenus;
+  let menus = publicMenus;
+
+  if (savedUser) {
+    const lowerRoles = savedUser.roles?.map((r) => r.toLowerCase()) || [];
+
+    if (lowerRoles.includes("volunteer")) {
+      menus = VolunteerMenus;
+    } else if (lowerRoles.includes("donor")) {
+      menus = DonorMenus;
+    } else if (lowerRoles.includes("victim")) {
+      menus = VictimMenus;
+    } else {
+      menus = privateMenus;
+    }
+  }
 
   const toggleSidebar = () => {
     setIsSidebarOpen(!isSidebarOpen);
@@ -238,109 +346,113 @@ export default function NavBar() {
     return () => clearInterval(dateInterval);
   }, [dispatch]);
 
- useEffect(() => {
-   const fetchData = async () => {
-     try {
-       // Fetch earthquake data
-       const earthquakeResponse = await fetch(
-         "https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/2.5_day.geojson"
-       );
-       const earthquakeData = await earthquakeResponse.json();
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        // Fetch earthquake data
+        const earthquakeResponse = await fetch(
+          "https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/2.5_day.geojson"
+        );
+        const earthquakeData = await earthquakeResponse.json();
 
-       let weatherData = null;
-       // Only fetch weather if user is logged in and has location
-       if (user && user.latitude && user.longitude) {
-         const weatherResponse = await fetch(
-           `https://api.open-meteo.com/v1/forecast?latitude=${user.latitude}&longitude=${user.longitude}&current_weather=true&warnings=true`
-         );
-         weatherData = await weatherResponse.json();
-       }
+        let weatherData = null;
+        // Only fetch weather if user is logged in and has location
+        if (user && user.latitude && user.longitude) {
+          const weatherResponse = await fetch(
+            `https://api.open-meteo.com/v1/forecast?latitude=${user.latitude}&longitude=${user.longitude}&current_weather=true&warnings=true`
+          );
+          weatherData = await weatherResponse.json();
+        }
 
-       // Fetch reports data
-       let reportsData = [];
-       if (user && user.latitude && user.longitude) {
-         const reportsResponse = await fetch(
-           "http://localhost:8000/api/reports/reports"
-         );
-         reportsData = await reportsResponse.json();
-       }
+        // Fetch reports data
+        let reportsData = [];
+        if (user && user.latitude && user.longitude) {
+          const reportsResponse = await fetch(
+            "http://localhost:8000/api/reports/reports"
+          );
+          reportsData = await reportsResponse.json();
+        }
 
-       // Process earthquake notifications
-       const earthquakeNotifications = earthquakeData.features
-         .filter((feature) => {
-           if (!user || !user.latitude || !user.longitude) return true;
-           const [longitude, latitude] = feature.geometry.coordinates;
-           const distance = calculateDistance(
-             user.latitude,
-             user.longitude,
-             latitude,
-             longitude
-           );
-           return distance <= 500; // 500 km radius
-         })
-         .map((feature) => ({
-           id: feature.id,
-           text: `Earthquake: ${feature.properties.title}`,
-           time: new Date(feature.properties.time).toLocaleString(),
-           threatLevel: getEarthquakeThreatLevel(feature.properties.mag),
-           read: false,
-         }));
+        // Process earthquake notifications
+        const earthquakeNotifications = earthquakeData.features
+          .filter((feature) => {
+            if (!user || !user.latitude || !user.longitude) return true;
+            const [longitude, latitude] = feature.geometry.coordinates;
+            const distance = calculateDistance(
+              user.latitude,
+              user.longitude,
+              latitude,
+              longitude
+            );
+            return distance <= 500; // 500 km radius
+          })
+          .map((feature) => ({
+            id: feature.id,
+            text: `Earthquake: ${feature.properties.title}`,
+            time: new Date(feature.properties.time).toLocaleString(),
+            threatLevel: getEarthquakeThreatLevel(feature.properties.mag),
+            read: false,
+          }));
 
-       // Process weather notifications
-       const weatherNotifications = weatherData?.warnings
-         ? weatherData.warnings.map((warning) => ({
-             id: `weather-${warning.event}-${warning.start}`,
-             text: `Weather Alert: ${warning.headline}`,
-             time: new Date(warning.start * 1000).toLocaleString(),
-             threatLevel: getWeatherThreatLevel(warning.severity),
-             read: false,
-           }))
-         : [];
+        // Process weather notifications
+        const weatherNotifications = weatherData?.warnings
+          ? weatherData.warnings.map((warning) => ({
+              id: `weather-${warning.event}-${warning.start}`,
+              text: `Weather Alert: ${warning.headline}`,
+              time: new Date(warning.start * 1000).toLocaleString(),
+              threatLevel: getWeatherThreatLevel(warning.severity),
+              read: false,
+            }))
+          : [];
 
-       // Add current weather condition if available
-       if (weatherData?.current_weather) {
-         weatherNotifications.push({
-           id: `weather-current-${Date.now()}`,
-           text: `Current Weather: ${weatherData.current_weather.temperature}°C, ${weatherData.current_weather.weathercode}`,
-           time: new Date().toLocaleString(),
-           threatLevel: "low",
-           read: false,
-         });
-       }
+        // Add current weather condition if available
+        if (weatherData?.current_weather) {
+          weatherNotifications.push({
+            id: `weather-current-${Date.now()}`,
+            text: `Current Weather: ${weatherData.current_weather.temperature}°C, ${weatherData.current_weather.weathercode}`,
+            time: new Date().toLocaleString(),
+            threatLevel: "low",
+            read: false,
+          });
+        }
 
-       // Process report notifications
-       const reportNotifications = reportsData
-         .filter((report) => {
-           if (!user || !user.latitude || !user.longitude) return false;
-           const distance = calculateDistance(
-             user.latitude,
-             user.longitude,
-             report.location.latitude,
-             report.location.longitude
-           );
-           return distance <= 50; // 50 km radius
-         })
-         .map((report) => ({
-           id: `report-${report.id}`,
-           text: `Report: ${report.title}`,
-           time: new Date(report.createdAt).toLocaleString(), // Use createdAt field
-           threatLevel: "high", // Assuming high threat level for reports
-           read: false,
-         }));
+        // Process report notifications
+        const reportNotifications = reportsData
+          .filter((report) => {
+            if (!user || !user.latitude || !user.longitude) return false;
+            const distance = calculateDistance(
+              user.latitude,
+              user.longitude,
+              report.location.latitude,
+              report.location.longitude
+            );
+            return distance <= 50; // 50 km radius
+          })
+          .map((report) => ({
+            id: `report-${report.id}`,
+            text: `Report: ${report.title}`,
+            time: new Date(report.createdAt).toLocaleString(), // Use createdAt field
+            threatLevel: "high", // Assuming high threat level for reports
+            read: false,
+          }));
 
-       setNotifications([
-         ...earthquakeNotifications,
-         ...weatherNotifications,
-         ...reportNotifications,
-       ]);
-     } catch (error) {
-       console.error("Error fetching data:", error);
-     }
-   };
+        // Combine and sort notifications based on time
+        const allNotifications = [
+          ...earthquakeNotifications,
+          ...weatherNotifications,
+          ...reportNotifications,
+        ];
 
-   fetchData();
- }, [user]);
+        allNotifications.sort((a, b) => new Date(b.time) - new Date(a.time));
 
+        setNotifications(allNotifications);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    };
+
+    fetchData();
+  }, [user]);
 
   const getEarthquakeThreatLevel = (magnitude) => {
     if (magnitude >= 6.0) return "severe";
@@ -456,17 +568,15 @@ export default function NavBar() {
                   )}
                 </div>
               ))}
-              <NavLink
-                to="/live-map"
-                className={({ isActive }) =>
-                  `px-3 py-2 text-gray-700 rounded-md hover:bg-gray-100 font-medium flex items-center ${
-                    isActive ? "bg-blue-50 text-blue-700" : ""
-                  }`
-                }
+              {/* In the desktop navigation section */}
+              <a
+                href="http://localhost:8501/"
+                rel="noopener noreferrer"
+                className="px-3 py-2 text-gray-700 rounded-md hover:bg-gray-100 font-medium flex items-center"
               >
                 <BiMap className="mr-1" />
-                Live Map
-              </NavLink>
+                 Map
+              </a>
             </div>
 
             {/* Search Bar */}

@@ -1,6 +1,15 @@
 import React, { useState, useEffect, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
-import { AlertCircle, Check, ChevronLeft, Send } from "lucide-react";
+import {
+  AlertCircle,
+  Check,
+  ChevronLeft,
+  Send,
+  Trash2,
+  Upload,
+} from "lucide-react";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const Report = () => {
   const navigate = useNavigate();
@@ -8,21 +17,17 @@ const Report = () => {
     title: "",
     description: "",
   });
+  const [images, setImages] = useState([]);
+  const [imagePreviews, setImagePreviews] = useState([]);
   const [userLocation, setUserLocation] = useState({
     latitude: null,
     longitude: null,
   });
+
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState("");
   const [successMessage, setSuccessMessage] = useState("");
   const [touched, setTouched] = useState({});
-
-  useEffect(() => {
-    const user = JSON.parse(localStorage.getItem("user"));
-    if (user && user.latitude && user.longitude) {
-      setUserLocation({ latitude: user.latitude, longitude: user.longitude });
-    }
-  }, []);
 
   const handleChange = useCallback((e) => {
     const { name, value } = e.target;
@@ -38,6 +43,57 @@ const Report = () => {
       [field]: true,
     }));
   }, []);
+  useEffect(() => {
+    const user = JSON.parse(localStorage.getItem("user"));
+    console.log(user);
+    if (user && user.latitude && user.longitude) {
+      setUserLocation({ latitude: user.latitude, longitude: user.longitude });
+    }
+  }, []);
+  console.log(userLocation);
+
+  const handleImageChange = (e) => {
+    const files = Array.from(e.target.files);
+
+    if (files.length + images.length > 5) {
+      setError("You can upload a maximum of 5 images");
+      return;
+    }
+
+    setError("");
+
+    // Create previews for the new images
+    const newPreviews = files.map((file) => ({
+      file,
+      preview: URL.createObjectURL(file),
+    }));
+
+    setImagePreviews((prev) => [...prev, ...newPreviews]);
+    setImages((prev) => [...prev, ...files]);
+  };
+
+  const removeImage = (index) => {
+    const newPreviews = [...imagePreviews];
+    const newImages = [...images];
+
+    // Revoke the object URL to avoid memory leaks
+    URL.revokeObjectURL(newPreviews[index].preview);
+
+    newPreviews.splice(index, 1);
+    newImages.splice(index, 1);
+
+    setImagePreviews(newPreviews);
+    setImages(newImages);
+  };
+
+  useEffect(() => {
+    // Clean up object URLs when component unmounts
+    return () => {
+      imagePreviews.forEach((preview) => {
+        URL.revokeObjectURL(preview.preview);
+      });
+    };
+  }, [imagePreviews]);
 
   const validateForm = () => {
     const errors = {};
@@ -46,6 +102,9 @@ const Report = () => {
     }
     if (formData.description.length < 20) {
       errors.description = "Description must be at least 20 characters";
+    }
+    if (images.length === 0) {
+      errors.images = "At least one image is required";
     }
     return errors;
   };
@@ -57,6 +116,9 @@ const Report = () => {
     if (Object.keys(errors).length > 0) {
       setError("Please fix the highlighted errors");
       setTouched({ title: true, description: true });
+      if (errors.images) {
+        setError(errors.images);
+      }
       return;
     }
 
@@ -65,12 +127,28 @@ const Report = () => {
     setSuccessMessage("");
 
     try {
+      const formDataToSend = new FormData();
+
+      formDataToSend.append("title", formData.title);
+      formDataToSend.append("description", formData.description);
+      if (
+        typeof userLocation.latitude === "number" &&
+        typeof userLocation.longitude === "number"
+      ) {
+        formDataToSend.append("latitude", userLocation.latitude.toString());
+        formDataToSend.append("longitude", userLocation.longitude.toString());
+      }
+
+      // Append all images
+      images.forEach((image) => {
+        formDataToSend.append("images", image);
+      });
+
       const response = await fetch(
         "http://localhost:8000/api/reports/reports",
         {
           method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ ...formData, location: userLocation }),
+          body: formDataToSend,
         }
       );
 
@@ -82,10 +160,15 @@ const Report = () => {
 
       console.log("Report submitted:", data);
       setFormData({ title: "", description: "" });
+      setImages([]);
+      setImagePreviews([]);
       setTouched({});
-      setSuccessMessage("Report submitted successfully!");
+      toast.success("Report submitted successfully!");
 
-      setTimeout(() => setSuccessMessage(""), 3000);
+      setTimeout(() => {
+        setSuccessMessage("");
+        window.location.href = "/";
+      }, 1000);
     } catch (err) {
       setError(err.message);
     } finally {
@@ -187,6 +270,66 @@ const Report = () => {
                   </p>
                 )}
               </div>
+
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  Incident Images (Max 5)
+                </label>
+                <div className="mt-1 flex justify-center px-6 pt-5 pb-6 border-2 border-gray-300 border-dashed rounded-md">
+                  <div className="space-y-1 text-center">
+                    <div className="flex text-sm text-gray-600 justify-center">
+                      <label
+                        htmlFor="file-upload"
+                        className="relative cursor-pointer bg-white rounded-md font-medium text-blue-600 hover:text-blue-500 focus-within:outline-none"
+                      >
+                        <Upload className="w-5 h-5 mx-auto" />
+                        <span>Upload images</span>
+                        <input
+                          id="file-upload"
+                          name="images"
+                          type="file"
+                          className="sr-only"
+                          multiple
+                          accept="image/*"
+                          onChange={handleImageChange}
+                          disabled={isSubmitting || images.length >= 5}
+                        />
+                      </label>
+                    </div>
+                    <p className="text-xs text-gray-500">
+                      PNG, JPG, GIF up to 10MB
+                    </p>
+                  </div>
+                </div>
+                {errors.images && !error && (
+                  <p className="mt-2 text-sm text-red-600 flex items-center gap-1">
+                    <AlertCircle className="w-3 h-3" />
+                    {errors.images}
+                  </p>
+                )}
+              </div>
+
+              {imagePreviews.length > 0 && (
+                <div className="grid grid-cols-3 gap-4">
+                  {imagePreviews.map((preview, index) => (
+                    <div key={index} className="relative group">
+                      <img
+                        src={preview.preview}
+                        alt={`Preview ${index}`}
+                        className="w-full h-32 object-cover rounded-lg"
+                      />
+                      <button
+                        type="button"
+                        onClick={() => removeImage(index)}
+                        className="absolute top-2 right-2 bg-red-500 text-white p-1 rounded-full opacity-0 group-hover:opacity-100 transition-opacity"
+                        disabled={isSubmitting}
+                      >
+                        <Trash2 className="w-3 h-3" />
+                      </button>
+                    </div>
+                  ))}
+                </div>
+              )}
 
               {userLocation.latitude && userLocation.longitude ? (
                 <div className="px-4 py-3 bg-blue-50 rounded-lg border border-blue-100 text-sm text-blue-700">

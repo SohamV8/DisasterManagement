@@ -39,6 +39,10 @@ const userSchema = new mongoose.Schema({
     default: [],
     required: false,
   },
+  donationType: {
+    type: String,
+    required: false,
+  },
 });
 
 const User = mongoose.model("User", userSchema);

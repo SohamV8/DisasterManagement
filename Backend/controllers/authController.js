@@ -48,6 +48,32 @@ const updateLocation = async (req, res) => {
   }
 };
 
+const update = async (req, res) => {
+  const { userId, ...updates } = req.body;
+
+  try {
+    const user = await User.findById(userId);
+    if (user) {
+      // Update user details dynamically
+      for (const key in updates) {
+        if (key === "role" && !user.roles.includes(updates[key])) {
+          user.roles.push(updates[key]);
+        } else {
+          user[key] = updates[key];
+        }
+      }
+      await user.save();
+      res.status(200).json({ message: "User details updated successfully" });
+    } else {
+      res.status(404).json({ message: "User not found" });
+    }
+  } catch (error) {
+    console.error("Error updating user details:", error);
+    console.log("Error details:", error.message);
+    res.status(500).json({ message: "Error updating user details", error });
+  }
+};
+
 const registerVolunteer = async (req, res) => {
   const { userId, skills, availability, phoneNumber } = req.body;
 
@@ -75,5 +101,31 @@ const registerVolunteer = async (req, res) => {
     res.status(500).json({ message: "Error registering volunteer", error });
   }
 };
+const registerDonor = async (req, res) => {
+  const { userId, donationType, phoneNumber } = req.body;
 
-module.exports = { login, updateLocation, registerVolunteer };
+  // Basic input validation
+  if (!userId || !donationType || !phoneNumber) {
+    return res.status(400).json({ message: "All fields are required" });
+  }
+
+  try {
+    const user = await User.findById(userId);
+    if (user) {
+      user.donationType = donationType;
+      user.phoneNumber = phoneNumber;
+      if (!user.roles.includes("donor")) {
+        user.roles.push("donor");
+      }
+      await user.save();
+      res.status(200).json({ message: "Donor registered successfully" });
+    } else {
+      res.status(404).json({ message: "User not found" });
+    }
+  } catch (error) {
+    console.error("Error registering donor:", error);
+    res.status(500).json({ message: "Error registering donor", error });
+  }
+};
+
+module.exports = { login, updateLocation,update, registerVolunteer, registerDonor };

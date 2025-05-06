@@ -66,10 +66,28 @@ fig2 = px.bar(top_locations, x="Count", y="Location", orientation="h", color="Lo
 st.plotly_chart(fig2, use_container_width=True)
 
 # Plot 3: Map Visualization
-st.subheader("🗺️ Geographical Map of Disasters")
-map_df = filtered_df.dropna(subset=["Latitude", "Longitude"])
+# Plot 3: Interactive Map with Color-Coded Disasters (Plotly version)
+st.subheader("🗺️ Interactive Map of Disasters")
+
+# Create the DataFrame first
+map_df = filtered_df.dropna(subset=["Latitude", "Longitude"]).copy()
 map_df = map_df.rename(columns={"Latitude": "lat", "Longitude": "lon"})
-st.map(map_df)
+
+# Now check if it's empty before plotting
+if not map_df.empty:
+    fig = px.scatter_mapbox(map_df,
+                          lat="lat",
+                          lon="lon",
+                          color="Disaster",
+                          hover_name="Location",
+                          hover_data=["Disaster"],
+                          zoom=4,
+                          height=600)
+    fig.update_layout(mapbox_style="open-street-map")
+    fig.update_layout(margin={"r":0,"t":40,"l":0,"b":0})
+    st.plotly_chart(fig, use_container_width=True)
+else:
+    st.warning("No geographical data available for the selected filters.")
 
 # Download filtered data option
 st.sidebar.markdown("---")
@@ -83,5 +101,5 @@ st.sidebar.download_button(
 
 # Footer
 st.markdown("---")
-st.markdown("Built with ❤️ using Streamlit | [GitHub](https://github.com/) | [Akshat Gupta 🚀]")
+st.caption("Dashboard created for India Disaster Analysis | Use the filters to explore disaster-prone areas")
 

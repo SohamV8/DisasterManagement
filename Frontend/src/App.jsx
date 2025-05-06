@@ -8,6 +8,10 @@ import "react-toastify/dist/ReactToastify.css";
 import AwarenessPage from "./pages/AwarenessPage/AwarenessPage";
 import IncidentPage from "./pages/IncidentPage/IncidentPage";
 import VolunteerFormPage from "./pages/VolunteerFormPage/VolunteerFormPage";
+import DonorFormPage from "./pages/DonorFormPage/DonorFormPage";
+import SoSFormPage from "./pages/SoSFormPage/SoSFormPage";
+import VolunteerReqPage from "./pages/VolunteerReqPage/VolunteerReqPage";
+import DonorReqPage from "./pages/DonorReqPage/DonorReqPage";
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(() => {
@@ -28,19 +32,11 @@ function App() {
         <Route path="/Awareness-Page" element={<AwarenessPage />} />
         <Route path="/Report" element={<IncidentPage />} />
         <Route path="/VolunteerForm" element={<VolunteerFormPage />} />
+        <Route path="/DonorForm" element={<DonorFormPage />} />
+        <Route path="/SendRequest" element={<SoSFormPage />} />
+        <Route path="/VolunteerRequirement" element={<VolunteerReqPage />} />
+        <Route path="/DonorRequirement" element={<DonorReqPage />} />
       </Routes>
-      <ToastContainer
-        theme="light"
-        position="top-right"
-        autoClose={5000}
-        hideProgressBar={false}
-        newestOnTop={false}
-        closeOnClick
-        rtl={false}
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover
-      />
     </div>
   );
 }

@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { updateUserRoles } from "../../redux/userSlice"; // Adjust the import path as needed
 
 const DisasterGuide = ({
   icon: Icon,
@@ -14,9 +16,9 @@ const DisasterGuide = ({
   videoLink,
 }) => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [user, setUser] = useState({ name: "", email: "" });
-
   const [volunteer, setVolunteer] = useState({
     phone: "",
     skills: "",
@@ -67,6 +69,17 @@ const DisasterGuide = ({
         toast.success("🎉 Registration Successful!", {
           position: "top-center",
         });
+
+        // Update user roles in Redux store
+        const updatedRoles = [...new Set([...user.roles, "volunteer"])];
+        dispatch(updateUserRoles(updatedRoles));
+
+        // Update user roles in local storage
+        const updatedUser = { ...user, roles: updatedRoles };
+        localStorage.setItem("user", JSON.stringify(updatedUser));
+
+        window.location.href = "/"; // Redirect to home page
+
         setVolunteer({
           phone: "",
           skills: "",
@@ -109,7 +122,7 @@ const DisasterGuide = ({
               <input
                 type="text"
                 name="name"
-                value={user.firstName + " " + user.lastName|| ""}
+                value={user.firstName + " " + user.lastName || ""}
                 className="w-full p-3 border rounded-lg bg-gray-100"
                 readOnly
               />
